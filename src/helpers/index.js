@@ -13,3 +13,11 @@ exports.comparePassword = async (plainPassword, hash) => {
     const result = await bcrypt.compare(plainPassword, hash);
     return result;
 }
+
+exports.checkVerifyAuthError = (error) => {
+    if (error?.name?.includes('TokenExpiredError')) {
+        return 'Token is expired'
+    } else {
+        return 'Token is invalid'
+    }
+}

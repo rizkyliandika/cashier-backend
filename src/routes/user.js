@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const UserService = require('../services/user');
+const middleware = require('../services/auth');
 
 const UserRoute = Router()
-    .get('/', async (req, res) => {
+    .get('/', middleware.verifyAuth, async (req, res) => {
         try {
             const data = await UserService.findAll();
             res.status(200).json({ message: 'Success get data', data });
@@ -19,7 +20,7 @@ const UserRoute = Router()
             res.status(500).json({ message: error?.message });
         }
     })
-    .put('/:id', async (req, res) => {
+    .put('/:id', middleware.verifyAuth, async (req, res) => {
         try {
             const { username, password, phoneNumber, email, active } = req.body;
             const { id } = req.params;
@@ -29,7 +30,7 @@ const UserRoute = Router()
             res.status(500).json({ message: error?.message });
         }
     })
-    .delete(':/id', async (req, res) => {
+    .delete(':/id', middleware.verifyAuth, async (req, res) => {
         try {
             const { id } = req.params;
             const data = await UserService.deleteUser(id);
@@ -38,7 +39,7 @@ const UserRoute = Router()
             res.status(500).json({ message: error?.message });
         }
     })
-    .get(':/id', async (req, res) => {
+    .get(':/id', middleware.verifyAuth, async (req, res) => {
         try {
             const { id } = req.params;
             const data = await UserService.findUserById(id);

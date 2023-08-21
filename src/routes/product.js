@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const ProductService = require('../services/product');
+const middleware = require('../services/auth');
 
 const ProductRoute = Router()
-    .get('/:id', async (req, res) => {
+    .get('/:id', middleware.verifyAuth, async (req, res) => {
         try {
             const { id } = req.params;
             const data = await ProductService.findProductById(id);
@@ -11,7 +12,7 @@ const ProductRoute = Router()
             res.status(500).json({ message: error?.message })
         }
     })
-    .post('/customers/:id', async (req, res) => {
+    .post('/customers/:id', middleware.verifyAuth, async (req, res) => {
         try {
             const { brand, price, active } = req.body;
             const { id } = req.params;
@@ -28,7 +29,7 @@ const ProductRoute = Router()
             res.status(500).json({ message: error?.message })
         }
     })
-    .put('/:id', async (req, res) => {
+    .put('/:id', middleware.verifyAuth, async (req, res) => {
         try {
             const { brand, price, active } = req.body;
             const { id } = req.params;
@@ -44,7 +45,7 @@ const ProductRoute = Router()
             res.status(500).json({ message: error?.message })
         }
     })
-    .delete('/:id', async (req, res) => {
+    .delete('/:id', middleware.verifyAuth, async (req, res) => {
         try {
             const { id } = req.params;
             const data = await ProductService.deleteProduct(id)
