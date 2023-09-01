@@ -3,6 +3,17 @@ const ProductService = require('../services/product');
 const middleware = require('../services/auth');
 
 const ProductRoute = Router()
+    .get("/:brand", async (req, res) => {
+        try {
+            const { brand } = req.params;
+            const data = await ProductService.findProductByBrand(brand);
+            res
+                .status(200)
+                .json({ message: "Success get data product by brand", data });
+        } catch (error) {
+            res.status(500).json({ message: error?.message });
+        }
+    })
     .get('/:id', middleware.verifyAuth, async (req, res) => {
         try {
             const { id } = req.params;
@@ -54,6 +65,5 @@ const ProductRoute = Router()
             res.status(500).json({ message: error?.message })
         }
     })
-
 
 module.exports = ProductRoute;
