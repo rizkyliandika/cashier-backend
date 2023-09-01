@@ -1,5 +1,5 @@
 const express = require('express');
-const { Environment, sequelize, db } = require('./db/connection');
+const { Environment, db } = require('./db/connection');
 const AppRoute = require('./routes');
 const app = express();
 const port = 3000;

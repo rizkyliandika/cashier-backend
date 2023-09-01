@@ -8,9 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      customer_name: {
-        type: DataTypes.STRING(200),
+      table_number: {
+        type: DataTypes.INTEGER
       },
+      total: {
+        type: DataTypes.BIGINT
+      }
     },
     {
       freezeTableName: true,
