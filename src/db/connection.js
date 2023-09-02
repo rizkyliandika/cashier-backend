@@ -10,8 +10,12 @@ const Environment = () => {
   }
 };
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-    dialect: 'mysql',
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  {
+    dialect: "mysql",
     pool: {
       max: 5,
       min: 0,
@@ -33,13 +37,18 @@ db.transaction = require("./models/transaction.model.js")(sequelize, DataTypes);
 
 db.product.hasMany(db.transaction, { as: "transactions" });
 db.customer.hasMany(db.product, { as: "products" });
+db.user.hasMany(db.product, { as: "products" });
 db.product.belongsTo(db.customer, {
-    foreignKey: "customerId",
-    as: "customer",
+  foreignKey: "customerId",
+  as: "customer",
+});
+db.product.belongsTo(db.user, {
+  foreignKey: "userId",
+  as: "user",
 });
 db.transaction.belongsTo(db.product, {
-    foreignKey: "productId",
-    as: "product",
+  foreignKey: "productId",
+  as: "product",
 });
 
 module.exports = { sequelize, Environment, db };
